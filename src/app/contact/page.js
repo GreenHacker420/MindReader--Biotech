@@ -83,27 +83,6 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center">
-                    <span className="text-xl">💼</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Business Partnerships</h3>
-                    <p className="text-gray-700">partnerships@mindreaderbio.tech</p>
-                    <p className="text-sm text-gray-500">For strategic collaborations</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center">
-                    <span className="text-xl">🚀</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">Careers</h3>
-                    <p className="text-gray-700">careers@mindreaderbio.tech</p>
-                    <p className="text-sm text-gray-500">Join our growing team</p>
-                  </div>
-                </div>
               </div>
 
               <div className="pt-4">
