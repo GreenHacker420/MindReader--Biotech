@@ -169,3 +169,34 @@ enum SubscriptionStatus {
   CANCELED
   PAST_DUE
 }
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  fileUrl     String
+  fileType    String // pdf, excel, csv, docx
+  accessLevel String // FREE or PRO
+  uploadedAt  DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  uploadedBy  String? // Admin user ID who uploaded
+
+  @@index([accessLevel])
+  @@index([fileType])
+  @@index([uploadedAt])
+}
+
+model Dataset {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  accessLevel String // FREE or PRO
+  columns     Json    // [{name: "Gene", type: "string"}, {name: "Score", type: "number"}]
+  rows        Json    // [{Gene: "TP53", Score: 0.89}, ...]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  uploadedBy  String? // Admin user ID who created
+
+  @@index([accessLevel])
+  @@index([createdAt])
+}

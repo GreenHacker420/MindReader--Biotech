@@ -21,7 +21,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: 49,
+    price: 15,
     description: 'For serious researchers and professionals',
     features: [
       'Full platform access',
@@ -42,6 +42,10 @@ export default function PricingPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const userPlan = session?.user?.plan || 'FREE';
+  const isPro = userPlan === 'PRO';
 
   async function handleSubscribe() {
     if (!session) {
@@ -49,7 +53,12 @@ export default function PricingPage() {
       return;
     }
 
+    if (isPro) {
+      return; // Already subscribed
+    }
+
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
@@ -60,9 +69,12 @@ export default function PricingPage() {
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
+      } else if (data.error) {
+        setError(data.details || data.error || 'Failed to start checkout. Please try again.');
       }
     } catch (error) {
       console.error('Checkout error:', error);
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setLoading(false);
     }
@@ -71,6 +83,12 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 max-w-2xl mx-auto">
+            <p className="text-red-800 text-sm font-medium">{error}</p>
+          </div>
+        )}
         {/* Header */}
         <div className="text-center mb-14">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
@@ -134,14 +152,20 @@ export default function PricingPage() {
 
               <button
                 onClick={plan.name === 'Pro' ? handleSubscribe : undefined}
-                disabled={loading || plan.name === 'Free'}
+                disabled={loading || plan.name === 'Free' || (plan.name === 'Pro' && isPro)}
                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                  plan.popular
+                  plan.popular && !isPro
                     ? 'bg-white text-blue-600 hover:bg-gray-100 focus:ring-blue-500'
+                    : plan.name === 'Pro' && isPro
+                    ? 'bg-green-500 text-white cursor-default'
                     : 'bg-gray-100 text-gray-400 cursor-not-allowed focus:ring-gray-300'
                 } ${loading ? 'opacity-50 cursor-wait' : ''}`}
               >
-                {loading ? 'Processing...' : plan.cta}
+                {loading 
+                  ? 'Processing...' 
+                  : plan.name === 'Pro' && isPro
+                  ? 'Current Plan'
+                  : plan.cta}
               </button>
             </div>
           ))}

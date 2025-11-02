@@ -19,6 +19,11 @@ export async function GET() {
         emailVerified: true,
         createdAt: true,
         image: true,
+        plan: true,
+        stripeCustomerId: true,
+        stripeSubscriptionId: true,
+        stripePriceId: true,
+        stripeCurrentPeriodEnd: true,
       },
       orderBy: {
         createdAt: 'desc',
