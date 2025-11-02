@@ -54,29 +54,6 @@ export default async function Insights() {
         </div>
 
         {/* General Portfolio Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-24">
-          {generalPortfolio.map((stock, index) => (
-            <article
-              key={index}
-              className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-medium">
-                  {stock.symbol}
-                </span>
-                <span className="text-gray-500 text-xs">{stock.category}</span>
-              </div>
-
-              <h3 className="text-xl font-bold text-black mb-3">
-                {stock.name}
-              </h3>
-
-              <p className="text-gray-700 leading-relaxed">
-                {stock.description}
-              </p>
-            </article>
-          ))}
-        </div>
 
         {/* Biotech Insights */}
         <div className="text-center mb-16">
