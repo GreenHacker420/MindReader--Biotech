@@ -26,7 +26,6 @@ export function Navigation() {
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
     { name: "Team", link: "/team" },
-    { name: "Investing Insights", link: "/insights" },
     { name: "Pricing", link: "/pricing" },
     { name: "Contact", link: "/contact" },
     { name: "Articles", link: "#" }, // Dropdown
