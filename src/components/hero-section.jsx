@@ -48,7 +48,7 @@ export function HeroSection() {
           {/* CTA Button */}
           <div className="mt-12">
             <Link
-              href="/insights"
+              href="/contact"
               className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors duration-200"
             >
               Start Your Journey
