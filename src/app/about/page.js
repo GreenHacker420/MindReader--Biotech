@@ -58,10 +58,6 @@ export default function About() {
             and genetic disorders. Our goal is not only to identify hidden value
             but also to work tirelessly to understand the evolving competitive
             landscape.
-            <br />
-            <br />
-            Understanding the potential market size and the competitive
-            landscape is critical for successful biotech investment.
           </p>
         </div>
 
