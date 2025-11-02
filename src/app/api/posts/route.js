@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { unstable_noStore as noStore } from 'next/cache';
 
 // Mock data for insights/blog posts
 const posts = [
@@ -35,6 +36,7 @@ const posts = [
 ];
 
 export async function GET(request) {
+  noStore();
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');

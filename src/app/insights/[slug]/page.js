@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
-import { ArticleSchema, BreadcrumbSchema } from "../../components/structured-data";
+import { ArticleSchema, BreadcrumbSchema } from "../../../components/structured-data";
 
 // Mock blog posts data (in a real app, this would come from a CMS or database)
 const blogPosts = {

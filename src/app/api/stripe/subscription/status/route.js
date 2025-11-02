@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../../../../../lib/auth';
 import { stripe } from '../../../../../lib/stripe';
 import prisma from '../../../../../lib/prisma';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function GET(req) {
+  noStore();
   try {
     const session = await auth();
 

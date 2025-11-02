@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../../../lib/auth';
 import prisma from '../../../lib/prisma';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function GET(req) {
+  noStore();
   try {
     const session = await auth();
     const { searchParams } = new URL(req.url);
