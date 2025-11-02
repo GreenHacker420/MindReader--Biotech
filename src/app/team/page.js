@@ -7,11 +7,11 @@ const teamMembers = [
   {
     name: "Dr. Forsyth",
     role: "Founder & CEO",
-    description: `Dr. Forsyth initially studied economics and political science in a B Comm program. After MD and FP training, he founded a successful medical practice in Raleigh, NC, and maintained an interest in financial investing and current economic and political events. He is now a full-time investor focusing on growth companies. Like many smaller focused investors, he has outperformed the conventional averages handily. He has been very concerned with the state of general health in the country and will use this platform to help focus on solutions. He has aligned himself with a brilliant young biotech molecular scientist to try to stratify the complex world of emerging biotech. The risks are high, but the results can be lucrative.`,
+    description: `Dr. Forsyth initially studied economics and political science in a B Comm program. After MD and FP training, he founded a successful medical practice in Raleigh, NC, and maintained an interest in financial investing and current economic and political events. He is now a full-time investor focusing on growth companies. Like many smaller focused investors, he has outperformed the conventional averages handily. He has been very concerned with the state of general health in the country and will use this platform to help focus on solutions.The risks are high, but the results can be lucrative.`,
   },
   {
     name: "Dr. Srishti Gupta",
-    role: "chief scientific officer",
+    role: "Chief Scientific Officer",
     description: `Dr. Srishti Gupta is the Chief Science Officer (CSO) at Mindreader Enterprises, where she leads the company’s scientific vision and strategy. She holds a Ph.D. in Biological sciences from Colorado State University and a Master’s degree in Biotechnology. Her research background spans molecular biology, protein biochemistry, and cell biology, with extensive experience in recombinant protein expression, RNA sequencing, and functional genomics. At Mindreader, she leverages her scientific training to evaluate biotechnology pipelines, analyze emerging therapies, and translate complex research into actionable insights for investors.`,
   },
   {
