@@ -1,6 +1,6 @@
 {
   "name": "mindreaderbio",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -28,6 +28,8 @@
     "@tabler/icons-react": "^3.35.0",
     "@types/three": "^0.180.0",
     "@upstash/redis": "^1.35.6",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -39,15 +41,18 @@
     "next": "^16.0.1",
     "next-auth": "^5.0.0-beta.30",
     "nodemailer": "^7.0.10",
+    "papaparse": "^5.5.3",
     "prisma": "^6.18.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-pdf": "^10.2.0",
     "recharts": "^3.2.1",
     "redis": "^5.9.0",
     "resend": "^6.1.0",
     "stripe": "^19.2.0",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

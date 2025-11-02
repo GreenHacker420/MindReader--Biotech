@@ -90,15 +90,45 @@ export const authOptions = {
 
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Send welcome email for new users
+      // Create or update user in database for OAuth providers
       if (account?.provider !== 'credentials') {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
 
         if (!existingUser) {
-          // New user - send welcome email
-          await sendWelcomeEmail(user.email, user.name || 'User');
+          // Create new user
+          const newUser = await prisma.user.create({
+            data: {
+              email: user.email,
+              name: user.name || null,
+              image: user.image || null,
+              emailVerified: account.providerAccountId ? new Date() : null,
+              provider: account.provider,
+              providerId: account.providerAccountId,
+            },
+          });
+
+          // Send welcome email
+          try {
+            await sendWelcomeEmail(user.email, user.name || 'User');
+          } catch (error) {
+            console.error('Email send error:', error);
+          }
+        } else {
+          // Update existing user with OAuth info if missing
+          if (!existingUser.provider || !existingUser.providerId) {
+            await prisma.user.update({
+              where: { id: existingUser.id },
+              data: {
+                provider: account.provider,
+                providerId: account.providerAccountId,
+                image: user.image || existingUser.image,
+                name: user.name || existingUser.name,
+                emailVerified: existingUser.emailVerified || (account.providerAccountId ? new Date() : null),
+              },
+            });
+          }
         }
       }
 
@@ -106,18 +136,78 @@ export const authOptions = {
     },
 
     async jwt({ token, user, account, trigger, session }) {
-      // Initial sign in
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-        token.plan = user.plan;
-        token.emailVerified = user.emailVerified;
-        token.createdAt = user.createdAt;
+      // Initial sign in - fetch user from database
+      if (user && account) {
+        let dbUser;
+        
+        if (account.provider === 'credentials') {
+          // For credentials, user object already has the data
+          dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+          });
+        } else {
+          // For OAuth, find by email
+          dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+          });
+        }
+
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.email = dbUser.email;
+          token.role = dbUser.role;
+          token.plan = dbUser.plan;
+          token.emailVerified = dbUser.emailVerified;
+          token.createdAt = dbUser.createdAt;
+        } else {
+          // Fallback to user object if not in DB
+          token.id = user.id;
+          token.email = user.email;
+          token.role = user.role || 'USER';
+          token.plan = user.plan || 'FREE';
+          token.emailVerified = user.emailVerified;
+          token.createdAt = user.createdAt || new Date();
+        }
       }
 
-      // Update session
-      if (trigger === 'update' && session) {
-        token = { ...token, ...session };
+      // On subsequent requests (no user object), ensure we have email for lookups
+      if (!user && token.email && (!token.id || !token.plan)) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: token.email },
+        });
+
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.role = dbUser.role || token.role;
+          token.plan = dbUser.plan || token.plan;
+          token.emailVerified = dbUser.emailVerified || token.emailVerified;
+          token.createdAt = dbUser.createdAt || token.createdAt;
+        }
+      }
+
+      // Update session - fetch latest user data from database
+      if (trigger === 'update') {
+        if (token.email) {
+          const updatedUser = await prisma.user.findUnique({
+            where: { email: token.email },
+            select: {
+              plan: true,
+              role: true,
+              emailVerified: true,
+            },
+          });
+
+          if (updatedUser) {
+            token.plan = updatedUser.plan;
+            token.role = updatedUser.role;
+            token.emailVerified = updatedUser.emailVerified;
+          }
+        }
+
+        // Merge any session data passed
+        if (session) {
+          token = { ...token, ...session };
+        }
       }
 
       return token;
