@@ -1,10 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "../components/navigation";
-import { PageTransition } from "../components/page-transition";
 import { OrganizationSchema, WebsiteSchema } from "../components/structured-data";
 import { AppBackground } from "../components/app-background";
 import { Providers } from "../components/providers";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,11 +90,9 @@ export default function RootLayout({ children }) {
         <Providers>
           <AppBackground />
           <Navigation />
-          <PageTransition>
-            <main role="main" className="relative pt-24">
-              {children}
-            </main>
-          </PageTransition>
+          <main id="main-content" role="main" className="relative pt-24">
+            {children}
+          </main>
         </Providers>
         
         {/* Skip to main content for accessibility */}
@@ -107,6 +106,8 @@ export default function RootLayout({ children }) {
         {/* Structured Data */}
         <OrganizationSchema />
         <WebsiteSchema />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
