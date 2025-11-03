@@ -39,21 +39,7 @@ export default async function Insights() {
             Subscribers will be notified promptly whenever we make additions, sales, or other changes to the General Portfolio.
             All stocks featured here are part of Dr. Forsyth’s active personal portfolio, reflecting his own market positions.
           </p>
-
-          {/* Download Button */}
-          <div className="flex justify-center mb-10">
-            <a
-              href="/files/general-portfolio.xlsx"
-              download
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
-            >
-              <FileSpreadsheet className="w-4 h-4" />
-              Download General Portfolio (Excel)
-            </a>
-          </div>
         </div>
-
-        {/* General Portfolio Grid */}
 
         {/* Biotech Insights */}
         <div className="text-center mb-16">
@@ -70,7 +56,12 @@ export default async function Insights() {
           </div>
 
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We are providing a mixed portfolio of names we think will do well but are fairly well researched so we will provide the names without any fundamental or technical comment.
+          We are an extensive list of biotech stocks with a wide variety of risk.One must recognize that an industry that's operations are dependent on the whims of government officials is innately risky.With great risk come great rewards. The industry has burned lots of capital but Dr Forsyth thinks the worm has turned.
+These stocks are all in Dr Forsyth's portfolio and the stocks will be updated frequently.Dr Gupta will be gradually reviewing the individual companies and explain the research.
+Dr Forsyth has his own techniques for finding biotechs which seem to be catching a bid.
+Dr Forsyth maintains positions in all the listed stocks but he will change his opinions in this volatile area.
+We will work on a warning system for our subscribers to increase our ability to communicate changes in opinion
+Stocks offered are Dr Forsyth's opinion and are not necessarily appropriate for any individual.One must do their own due diligence and understand their own risk tolerance before opening any of these positions.
           </p>
 
           {/* Conditional Excel Button */}
@@ -91,38 +82,22 @@ export default async function Insights() {
                 🔒 Biotech Insights and Excel download are available for PRO subscribers only.
                 <Link href="/pricing" className="underline hover:text-blue-900 ml-1">
                   Upgrade to PRO
-                </Link> to access detailed analysis and exclusive content.
+                </Link>{" "}
+                to access detailed analysis and exclusive content.
               </p>
             </div>
           )}
         </div>
 
         {/* Biotech Insights Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="relative grid md:grid-cols-2 gap-8 mb-16">
           {insightPosts.map((post, index) => (
             <article
               key={index}
               className={`bg-gray-50 rounded-2xl p-6 transition-shadow relative overflow-hidden ${
-                hasAccess ? "hover:shadow-lg" : "opacity-75 cursor-not-allowed"
+                hasAccess ? "hover:shadow-lg" : "opacity-75"
               }`}
             >
-              {!hasAccess && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-2xl">
-                  <div className="text-center p-6">
-                    <Lock className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                    <p className="text-gray-600 font-medium mb-2">
-                      PRO Content
-                    </p>
-                    <Link
-                      href="/pricing"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                    >
-                      Upgrade to Unlock
-                    </Link>
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center gap-2 mb-4">
                 <span className="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full font-medium">
                   {post.category}
@@ -149,6 +124,22 @@ export default async function Insights() {
               )}
             </article>
           ))}
+
+          {/* Single Overlay covering all cards when not PRO */}
+          {!hasAccess && (
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-2xl">
+              <div className="text-center p-6">
+                <Lock className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-600 font-medium mb-2">PRO Content</p>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                >
+                  Upgrade to Unlock
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Informational Line */}
