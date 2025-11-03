@@ -41,7 +41,7 @@ export function HeroSection() {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#003049] leading-tight">
             Smarter Biotech,
             <br />
-            <span className="text-[#2ec4b6]">Better Market Decision</span>
+            <span className="text-[#2ec4b6]">Better Market Decisions</span>
           </h1>
 
           
