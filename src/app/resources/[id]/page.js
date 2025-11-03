@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Download, Lock, FileText } from "lucide-react";
+import { ArrowLeft, Lock, FileText, Eye } from "lucide-react";
 import { useToast } from "../../../components/toast";
 import { ExcelCsvViewer } from "../../../components/resource-viewers/excel-csv-viewer";
 import { PdfViewer } from "../../../components/resource-viewers/pdf-viewer";
@@ -73,22 +73,16 @@ export default function ResourceViewerPage() {
       );
     }
 
-    // Default: Show download option
+    // Default: Show view-only message
     return (
       <div className="text-center py-12">
         <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">File Preview Not Available</h3>
-        <p className="text-gray-600 mb-6">
-          This file type ({resource.fileType}) doesn't support in-app viewing.
+        <p className="text-gray-600 mb-2">
+          This file type cannot be previewed in the browser.
         </p>
-        <a
-          href={resource.fileUrl}
-          download
-          className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-        >
-          <Download className="w-5 h-5" />
-          Download File
-        </a>
+        <p className="text-sm text-gray-500">
+          File: {resource.title} ({resource.fileType})
+        </p>
       </div>
     );
   }
@@ -106,7 +100,7 @@ export default function ResourceViewerPage() {
 
   if (!resource) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24 pb-12 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 md:py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
             <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -158,7 +152,7 @@ export default function ResourceViewerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24 pb-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 md:py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">

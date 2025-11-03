@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { CheckCircle, AlertCircle } from "lucide-react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ export default function Contact() {
     company: '',
     message: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +24,8 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage(null);
     
     try {
       const response = await fetch('/api/contact', {
@@ -28,29 +33,37 @@ export default function Contact() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          fullName: formData.name,
+          email: formData.email,
+          company: formData.company || null,
+          message: formData.message,
+        }),
       });
 
       const result = await response.json();
       
       if (response.ok) {
-        alert('Thank you for your message! We\'ll get back to you soon.');
+        setMessage({ type: 'success', text: 'Thank you for your message! We\'ll get back to you soon.' });
         setFormData({ name: '', email: '', company: '', message: '' });
+        setTimeout(() => setMessage(null), 5000);
       } else {
-        alert(result.error || 'Something went wrong. Please try again.');
+        setMessage({ type: 'error', text: result.error || 'Something went wrong. Please try again.' });
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      alert('Something went wrong. Please try again.');
+      setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen pt-24 overflow-hidden">
-      <div className="relative max-w-6xl mx-auto px-4 py-10">
+    <div className="relative min-h-screen py-12 md:py-12 overflow-hidden">
+      <div className="relative max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
+        <div className="text-center mb-16">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
             Get In Touch
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
@@ -159,10 +172,28 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-white font-semibold shadow-sm hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                  className="w-full inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-white font-semibold shadow-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
+
+                {message && (
+                  <div className={`flex items-center gap-3 p-4 rounded-lg ${
+                    message.type === 'success' 
+                      ? 'bg-green-50 border border-green-200' 
+                      : 'bg-red-50 border border-red-200'
+                  }`}>
+                    {message.type === 'success' ? (
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                    )}
+                    <p className={message.type === 'success' ? 'text-green-800' : 'text-red-800'}>
+                      {message.text}
+                    </p>
+                  </div>
+                )}
               </form>
             </div>
           </section>

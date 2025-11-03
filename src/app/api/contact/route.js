@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function POST(request) {
   try {
     const { name, email, company, message } = await request.json();
 
     // Validate required fields
-    if (name || email || message) {
+    if (!name || !email || !message) {
       return NextResponse.json(
         { error: 'Name, email, and message are required' },
         { status: 400 }
@@ -15,12 +18,23 @@ export async function POST(request) {
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(email)) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: 'Please enter a valid email address' },
         { status: 400 }
       );
     }
+
+    // Save to database
+    const contactLead = await prisma.contactLead.create({
+      data: {
+        fullName: name,
+        email,
+        company: company || null,
+        message,
+        status: 'NEW',
+      },
+    });
 
     // Send email using Nodemailer SMTP if configured, otherwise log
     const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE, SMTP_FROM, CONTACT_TO } = process.env;

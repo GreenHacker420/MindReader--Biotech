@@ -7,34 +7,45 @@ import { Check, Zap } from 'lucide-react';
 
 const plans = [
   {
-    name: 'Free',
-    price: 0,
-    description: 'Perfect for getting started',
-    features: [
-      'Basic access to platform',
-      'Limited research articles',
-      'Community forum access',
-      'Email support',
-    ],
-    cta: 'Current Plan',
-    popular: false,
-  },
-  {
-    name: 'Pro',
-    price: 15,
-    description: 'For serious researchers and professionals',
+    name: 'Monthly',
+    price: 12,
+    period: 'month',
+    priceId: 'price_monthly',
+    description: 'Perfect for flexible access',
     features: [
       'Full platform access',
       'Unlimited research articles',
+      'Access to all datasets',
+      'Download resources (view only)',
       'Advanced analytics',
       'Priority email support',
       'Exclusive webinars',
-      'API access',
-      'Custom reports',
       'Early access to new features',
     ],
-    cta: 'Upgrade to Pro',
+    cta: 'Subscribe Monthly',
+    popular: false,
+  },
+  {
+    name: 'Annual',
+    price: 125,
+    period: 'year',
+    priceId: 'price_annual',
+    description: 'Best value - Save $19/year',
+    features: [
+      'Everything in Monthly',
+      'Full platform access',
+      'Unlimited research articles',
+      'Access to all datasets',
+      'Download resources (view only)',
+      'Advanced analytics',
+      'Priority email support',
+      'Exclusive webinars',
+      'Early access to new features',
+      'Annual billing discount',
+    ],
+    cta: 'Subscribe Annually',
     popular: true,
+    savings: 'Save $19',
   },
 ];
 
@@ -47,7 +58,7 @@ export default function PricingPage() {
   const userPlan = session?.user?.plan || 'FREE';
   const isPro = userPlan === 'PRO';
 
-  async function handleSubscribe() {
+  async function handleSubscribe(priceId, planName) {
     if (!session) {
       router.push('/auth/signin?callbackUrl=/pricing');
       return;
@@ -63,7 +74,11 @@ export default function PricingPage() {
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: 'PRO' }),
+        body: JSON.stringify({ 
+          plan: 'PRO',
+          priceId,
+          planName 
+        }),
       });
 
       const data = await res.json();
@@ -81,7 +96,7 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-28 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 md:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Error Message */}
         {error && (
@@ -92,10 +107,10 @@ export default function PricingPage() {
         {/* Header */}
         <div className="text-center mb-14">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            Simple, Transparent Pricing
+            Unlock Premium Access
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Choose the plan that's right for you. Upgrade, downgrade, or cancel anytime.
+            Get full access to exclusive datasets, resources, and research articles. Cancel anytime.
           </p>
         </div>
 
@@ -134,9 +149,12 @@ export default function PricingPage() {
                     ${plan.price}
                   </span>
                   <span className={`${plan.popular ? 'text-blue-100' : 'text-gray-600'}`}>
-                    /month
+                    /{plan.period}
                   </span>
                 </div>
+                {plan.savings && (
+                  <p className="text-green-300 font-semibold mt-2">{plan.savings}</p>
+                )}
               </div>
 
               <ul className="space-y-3 md:space-y-4 mb-8">
@@ -151,19 +169,19 @@ export default function PricingPage() {
               </ul>
 
               <button
-                onClick={plan.name === 'Pro' ? handleSubscribe : undefined}
-                disabled={loading || plan.name === 'Free' || (plan.name === 'Pro' && isPro)}
+                onClick={() => handleSubscribe(plan.priceId, plan.name)}
+                disabled={loading || isPro}
                 className={`w-full py-3 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                  plan.popular && !isPro
-                    ? 'bg-white text-blue-600 hover:bg-gray-100 focus:ring-blue-500'
-                    : plan.name === 'Pro' && isPro
-                    ? 'bg-green-500 text-white cursor-default'
-                    : 'bg-gray-100 text-gray-400 cursor-not-allowed focus:ring-gray-300'
+                  !isPro
+                    ? plan.popular
+                      ? 'bg-white text-blue-600 hover:bg-gray-100 focus:ring-blue-500'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500'
+                    : 'bg-green-500 text-white cursor-default'
                 } ${loading ? 'opacity-50 cursor-wait' : ''}`}
               >
                 {loading 
                   ? 'Processing...' 
-                  : plan.name === 'Pro' && isPro
+                  : isPro
                   ? 'Current Plan'
                   : plan.cta}
               </button>

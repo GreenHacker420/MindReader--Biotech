@@ -23,11 +23,11 @@ const teamMembers = [
 
 export default function Team() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 pt-20">
-      <div className="max-w-7xl mx-auto px-6 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 py-12 md:py-12">
+      <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
             Our Expert Team
           </h1>
@@ -62,7 +62,7 @@ export default function Team() {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-24">
+        <div className="text-center mt-16">
           <h3 className="text-2xl font-semibold text-gray-800 mb-6">
             Want to collaborate with us?
           </h3>

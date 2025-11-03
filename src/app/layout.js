@@ -1,9 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "../components/navigation";
 import { OrganizationSchema, WebsiteSchema } from "../components/structured-data";
-import { AppBackground } from "../components/app-background";
 import { Providers } from "../components/providers";
+import { LayoutWrapper } from "../components/layout-wrapper";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -88,11 +87,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden relative`}
       >
         <Providers>
-          <AppBackground />
-          <Navigation />
-          <main id="main-content" role="main" className="relative pt-24">
+          <LayoutWrapper>
             {children}
-          </main>
+          </LayoutWrapper>
         </Providers>
         
         {/* Skip to main content for accessibility */}

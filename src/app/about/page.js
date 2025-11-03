@@ -6,8 +6,8 @@ export const metadata = {
 
 export default function About() {
   return (
-    <div className="min-h-screen pt-20">
-      <div className="max-w-6xl mx-auto px-4 py-16">
+    <div className="min-h-screen">
+      <div className="max-w-6xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-black mb-6">

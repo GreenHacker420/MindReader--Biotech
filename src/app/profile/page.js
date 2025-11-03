@@ -167,7 +167,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24 pb-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 md:py-12 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Welcome Header */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">

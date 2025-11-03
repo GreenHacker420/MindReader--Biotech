@@ -18,8 +18,8 @@ export default async function Insights() {
   const hasAccess = hasProAccess(userPlan);
 
   return (
-    <div className="min-h-screen pt-20">
-      <div className="max-w-6xl mx-auto px-4 py-16">
+    <div className="min-h-screen pt-12">
+      <div className="max-w-6xl mx-auto px-6 py-1">
         {/* Intro Section */}
         <div className="mb-12 text-center">
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
