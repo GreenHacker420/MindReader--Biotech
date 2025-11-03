@@ -15,13 +15,9 @@ const teamMembers = [
     description: `Dr. Srishti Gupta is the Chief Science Officer (CSO) at Mindreader Enterprises, where she leads the company’s scientific vision and strategy. She holds a Ph.D. in Biological sciences from Colorado State University and a Master’s degree in Biotechnology. Her research background spans molecular biology, protein biochemistry, and cell biology, with extensive experience in recombinant protein expression, RNA sequencing, and functional genomics. At Mindreader, she leverages her scientific training to evaluate biotechnology pipelines, analyze emerging therapies, and translate complex research into actionable insights for investors.`,
   },
   {
-    name: "Dr. Joshua Dloomy, MD",
-    role: "Chief Technology Officer",
-    description: `Dr. Joshua Dloomy serves as Chief Technology Officer (CTO) at Mindreader Enterprises, bringing a unique blend of medical expertise, technological vision, and market insight. With deep knowledge of human immunology, a passion for biotech innovation, and strong experience in trading and market analysis, he drives the company’s technology strategy and research platforms. At Mindreader, Dr. Dloomy combines his clinical background with biotech market expertise to ensure that our analyses and tools are scientifically robust and strategically aligned with industry needs.`,
-  },
-  {
     name: "Taina Kirk",
     role: "Administrator",
+    description: `Taina is a longstanding office manager of multi office medical practice and she is best known for getting stuff done.She has an inquisitive mind and she will be able to keep things organized as our research group expands.Send us your resume if you are a cell scientist interested in the financial markets.`
   },
 ];
 
