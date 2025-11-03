@@ -29,11 +29,7 @@ export default function About() {
               Why It Matters
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              Biotechnology aided by the rapid progress in AI is revolutionizing
-              oncology, autoimmune and genetic disorders. By combining deep
-              scientific expertise with market intelligence, Mindreader ensures
-              that investment strategies and decisions are built on a foundation
-              of rigorous, validated science.
+          Mindreader strives to improve investment strategies and decision making. The decisions are built on the foundation of rigorous, validated science. We have sense  of market dynamics, built on years of experience.
             </p>
           </div>
 
@@ -58,10 +54,6 @@ export default function About() {
             and genetic disorders. Our goal is not only to identify hidden value
             but also to work tirelessly to understand the evolving competitive
             landscape.
-            <br />
-            <br />
-            Understanding the potential market size and the competitive
-            landscape is critical for successful biotech investment.
           </p>
         </div>
 
@@ -115,7 +107,7 @@ export default function About() {
         {/* CTA */}
         <div className="text-center mt-16">
           <a
-            href="/contact"
+            href="/insights"
             className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Get Started Today

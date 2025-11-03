@@ -14,24 +14,23 @@ export function Navigation() {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showUserMenu && !event.target.closest('.user-menu-container')) {
+      if (showUserMenu && !event.target.closest(".user-menu-container")) {
         setShowUserMenu(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showUserMenu]);
-  
+
   const navItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
     { name: "Team", link: "/team" },
-    { name: "Insights", link: "/insights" },
-    { name: "Pricing", link: "/pricing" },
+    { name: "Investment Insights", link: "/insights" },
     { name: "Contact", link: "/contact" },
+    { name: "Articles", link: "#" }, // Dropdown
   ];
-  
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,21 +46,68 @@ export function Navigation() {
                 priority
                 className="rounded"
               />
-              <span className="tracking-tight text-[#07beb8]">MindReaderBio</span>
+              <span className="tracking-tight text-[#07beb8]">
+                MindReaderBio
+              </span>
             </Link>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.link}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navItems.map((item, index) => {
+              if (item.name === "Articles") {
+                return (
+                  <div key={index} className="relative group">
+                    <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
+                      Articles
+                      <svg
+                        className="ml-1 w-4 h-4 text-gray-500 group-hover:text-blue-600"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <div className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
+                      <Link
+                        href="/food-for-thought"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Food for Thought
+                      </Link>
+                      <Link
+                        href="/investing-insight"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Investing Insight
+                      </Link>
+                      <Link
+                        href="/mindreader-science-desk"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Mindreader Science Desk
+                      </Link>
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <Link
+                    key={index}
+                    href={item.link}
+                    className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                  >
+                    {item.name}
+                  </Link>
+                );
+              }
+            })}
           </div>
 
           {/* Auth Buttons / User Menu */}
@@ -84,18 +130,27 @@ export function Navigation() {
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold border-2 border-blue-500">
-                      {(session.user.name || session.user.email || "U").charAt(0).toUpperCase()}
+                      {(session.user.name ||
+                        session.user.email ||
+                        "U"
+                      ).charAt(0).toUpperCase()}
                     </div>
                   )}
-                  <span className="hidden sm:block max-w-[140px] truncate text-gray-700 font-medium">{session.user.name || "User"}</span>
+                  <span className="hidden sm:block max-w-[140px] truncate text-gray-700 font-medium">
+                    {session.user.name || "User"}
+                  </span>
                 </button>
 
                 {/* User Dropdown Menu */}
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                     <div className="px-4 py-2 border-b border-gray-200">
-                      <p className="text-sm font-medium text-gray-900">{session.user.name || "User"}</p>
-                      <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {session.user.name || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {session.user.email}
+                      </p>
                     </div>
                     <Link
                       href="/resources"
@@ -167,17 +222,47 @@ export function Navigation() {
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
             <div className="space-y-2">
-              {navItems.map((item, index) => (
+              {navItems
+                .filter((item) => item.name !== "Articles")
+                .map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.link}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-gray-700 hover:text-blue-600 transition-colors py-2 font-medium"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+
+              {/* Mobile Dropdown */}
+              <div className="border-t border-gray-200 pt-2">
+                <p className="text-gray-500 px-2 text-sm font-medium mt-2">
+                  Articles
+                </p>
                 <Link
-                  key={index}
-                  href={item.link}
+                  href="/food-for-thought"
                   onClick={() => setIsOpen(false)}
-                  className="block text-gray-700 hover:text-blue-600 transition-colors py-2 font-medium"
+                  className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
                 >
-                  {item.name}
+                  Food for Thought
                 </Link>
-              ))}
-              
+                <Link
+                  href="/investing-insight"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                >
+                  Investing Insight
+                </Link>
+                <Link
+                  href="/mindreader-science-desk"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                >
+                  Mindreader Science Desk
+                </Link>
+              </div>
+
               {session ? (
                 <>
                   <div className="border-t border-gray-200 pt-4 mt-4">
@@ -192,12 +277,19 @@ export function Navigation() {
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
-                          {(session.user.name || session.user.email || "U").charAt(0).toUpperCase()}
+                          {(session.user.name ||
+                            session.user.email ||
+                            "U"
+                          ).charAt(0).toUpperCase()}
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{session.user.name || "User"}</p>
-                        <p className="text-xs text-gray-500">{session.user.email}</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {session.user.name || "User"}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {session.user.email}
+                        </p>
                       </div>
                     </div>
                   </div>
